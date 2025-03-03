@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <!-- Ensure responsiveness on every device -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TANMAY'S CODE RUNNER - Main Menu</title>
   <style>
     /* Basic Reset */
@@ -48,15 +50,16 @@
       background: linear-gradient(120deg, #a6c0fe, #f68084);
       min-height: 100vh;
       display: flex;
-      align-items: center;
-      justify-content: center;
       flex-direction: column;
-      overflow: hidden;
+      align-items: center;
+      justify-content: flex-start;
       padding: 20px;
     }
     
-    /* Main Container with Starting Animation */
+    /* Main Container with Starting Animation near the Top */
     .container {
+      width: 100%;
+      max-width: 800px;
       animation: fadeInSlideUp 1s ease-out forwards;
       opacity: 0;
       transform: translateY(20px);
@@ -64,6 +67,7 @@
       flex-direction: column;
       align-items: center;
       gap: 20px;
+      margin-top: 20px;
     }
     @keyframes fadeInSlideUp {
       to {
@@ -72,7 +76,7 @@
       }
     }
     
-    /* 3D Language Buttons (Menu) */
+    /* 3D Language Buttons in Menu */
     .menu {
       display: flex;
       gap: 20px;
@@ -125,12 +129,28 @@
       text-align: center;
     }
     
-    /* Heading */
+    /* Heading Styling */
     h1 {
       color: #fff;
       margin-bottom: 20px;
       text-shadow: 0 2px 4px rgba(0,0,0,0.3);
       font-size: 2rem;
+      text-align: center;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 600px) {
+      .threeD-button {
+        width: 120px;
+        height: 120px;
+      }
+      .threeD-button-front img {
+        width: 60px;
+        height: 60px;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
     }
   </style>
 </head>
