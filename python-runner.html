@@ -39,6 +39,8 @@
       display: flex;
       gap: 15px;
       margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
     .btn-3d {
       width: 120px;
@@ -63,16 +65,15 @@
     .btn-3d-inner:hover {
       transform: rotateX(15deg);
     }
-    .reset-button {
-      background: #dc3545;
-    }
-    .run-button {
-      background: #28a745;
-    }
+    .run-button { background: #28a745; }
+    .reset-button { background: #dc3545; }
+    .add-button { background: #007BFF; }
+    .download-button { background: #ffc107; color: #000; }
+    /* Bigger output area */
     #outputPython {
       width: 90%;
       max-width: 700px;
-      min-height: 100px;
+      min-height: 300px;
       background: #fff;
       border: 1px solid #ccc;
       border-radius: 4px;
@@ -95,14 +96,19 @@
   <div class="action-buttons">
     <button class="btn-3d" id="runButton"><div class="btn-3d-inner run-button">Run Code</div></button>
     <button class="btn-3d" id="resetButton"><div class="btn-3d-inner reset-button">Reset Code</div></button>
+    <button class="btn-3d" id="addFileButton"><div class="btn-3d-inner add-button">Add File</div></button>
+    <button class="btn-3d" id="downloadButton"><div class="btn-3d-inner download-button">Download File</div></button>
   </div>
+  <input type="file" id="fileInput" style="display:none" accept=".py,.txt" />
   <div id="outputPython"></div>
   <a href="index.html" class="back-link">Back to Main Menu</a>
+  
   <script>
     const defaultPython = `print("Hello from Python with Pyodide!")`;
     const codeEditor = document.getElementById("codeEditor");
     codeEditor.value = defaultPython;
     const outputPython = document.getElementById("outputPython");
+
     let pyodideReadyPromise;
     async function loadPyodideAndPackages() {
       window.pyodide = await loadPyodide();
@@ -129,6 +135,29 @@
     document.getElementById("resetButton").addEventListener("click", () => {
       codeEditor.value = defaultPython;
       outputPython.textContent = "";
+    });
+
+    const fileInput = document.getElementById("fileInput");
+    document.getElementById("addFileButton").addEventListener("click", () => {
+      fileInput.click();
+    });
+    fileInput.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => { codeEditor.value = e.target.result; };
+        reader.readAsText(file);
+      }
+    });
+    document.getElementById("downloadButton").addEventListener("click", () => {
+      const text = codeEditor.value;
+      const blob = new Blob([text], {type:"text/plain"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "code.py";
+      a.click();
+      URL.revokeObjectURL(url);
     });
   </script>
 </body>
