@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML Code Runner - TANMAY'S CODE RUNNER</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: sans-serif;
+      background: linear-gradient(120deg, #a6c0fe, #f68084);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #fff;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    #editorContainer {
+      width: 90%;
+      max-width: 700px;
+      margin-bottom: 10px;
+    }
+    #codeEditor {
+      width: 100%;
+      height: 200px;
+      font-family: monospace;
+      font-size: 1rem;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .btn-3d {
+      width: 120px;
+      height: 50px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      perspective: 600px;
+    }
+    .btn-3d-inner {
+      width: 100%;
+      height: 100%;
+      background: #28a745;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: transform 0.3s;
+      font-size: 1rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .btn-3d-inner:hover {
+      transform: rotateX(15deg);
+    }
+    .reset-button {
+      background: #dc3545;
+    }
+    #outputHTML {
+      width: 90%;
+      max-width: 700px;
+      border: none;
+      height: 300px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+    a.back-link {
+      margin-top: 20px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>HTML Code Runner</h1>
+  <div id="editorContainer">
+    <textarea id="codeEditor" placeholder="Write your HTML code here"></textarea>
+  </div>
+  <div class="action-buttons">
+    <button class="btn-3d" id="runButton"><div class="btn-3d-inner">Run Code</div></button>
+    <button class="btn-3d" id="resetButton"><div class="btn-3d-inner reset-button">Reset Code</div></button>
+  </div>
+  <iframe id="outputHTML" title="HTML Output"></iframe>
+  <a href="index.html" class="back-link">Back to Main Menu</a>
+  <script>
+    const defaultHTML = `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>HTML Preview</title>
+    <style>
+      body { font-family: sans-serif; background: #f0f0f0; text-align: center; padding-top: 50px; }
+      h1 { color: #007BFF; }
+    </style>
+  </head>
+  <body>
+    <h1>Hello, HTML World!</h1>
+    <p>This is rendered HTML code.</p>
+  </body>
+</html>`;
+    const codeEditor = document.getElementById("codeEditor");
+    codeEditor.value = defaultHTML;
+    const outputHTML = document.getElementById("outputHTML");
+    document.getElementById("runButton").addEventListener("click", () => {
+      outputHTML.srcdoc = codeEditor.value;
+    });
+    document.getElementById("resetButton").addEventListener("click", () => {
+      codeEditor.value = defaultHTML;
+      outputHTML.srcdoc = "";
+    });
+  </script>
+</body>
+</html>
