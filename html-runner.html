@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>HTML Code Runner - TANMAY'S CODE RUNNER</title>
   <style>
+    /* Basic Reset and Styling */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: sans-serif;
@@ -38,6 +39,8 @@
       display: flex;
       gap: 15px;
       margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
     .btn-3d {
       width: 120px;
@@ -50,27 +53,27 @@
     .btn-3d-inner {
       width: 100%;
       height: 100%;
-      background: #28a745;
-      color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 4px;
       transition: transform 0.3s;
       font-size: 1rem;
+      color: #fff;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
     .btn-3d-inner:hover {
       transform: rotateX(15deg);
     }
-    .reset-button {
-      background: #dc3545;
-    }
+    .run-button { background: #28a745; }
+    .reset-button { background: #dc3545; }
+    .add-button { background: #007BFF; }
+    .download-button { background: #ffc107; color: #000; }
+    /* Updated output box height for HTML */
     #outputHTML {
       width: 90%;
       max-width: 700px;
-      border: none;
-      height: 300px;
+      height: 500px;
       border: 1px solid #ccc;
       border-radius: 4px;
       margin-top: 10px;
@@ -89,11 +92,16 @@
     <textarea id="codeEditor" placeholder="Write your HTML code here"></textarea>
   </div>
   <div class="action-buttons">
-    <button class="btn-3d" id="runButton"><div class="btn-3d-inner">Run Code</div></button>
+    <button class="btn-3d" id="runButton"><div class="btn-3d-inner run-button">Run Code</div></button>
     <button class="btn-3d" id="resetButton"><div class="btn-3d-inner reset-button">Reset Code</div></button>
+    <button class="btn-3d" id="addFileButton"><div class="btn-3d-inner add-button">Add File</div></button>
+    <button class="btn-3d" id="downloadButton"><div class="btn-3d-inner download-button">Download File</div></button>
   </div>
+  <!-- Hidden file input -->
+  <input type="file" id="fileInput" style="display: none;" accept=".html,.txt" />
   <iframe id="outputHTML" title="HTML Output"></iframe>
   <a href="index.html" class="back-link">Back to Main Menu</a>
+  
   <script>
     const defaultHTML = `<!DOCTYPE html>
 <html>
@@ -113,12 +121,41 @@
     const codeEditor = document.getElementById("codeEditor");
     codeEditor.value = defaultHTML;
     const outputHTML = document.getElementById("outputHTML");
+    
     document.getElementById("runButton").addEventListener("click", () => {
       outputHTML.srcdoc = codeEditor.value;
     });
     document.getElementById("resetButton").addEventListener("click", () => {
       codeEditor.value = defaultHTML;
       outputHTML.srcdoc = "";
+    });
+    
+    // Add File functionality
+    const fileInput = document.getElementById("fileInput");
+    document.getElementById("addFileButton").addEventListener("click", () => {
+      fileInput.click();
+    });
+    fileInput.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          codeEditor.value = e.target.result;
+        };
+        reader.readAsText(file);
+      }
+    });
+    
+    // Download File functionality
+    document.getElementById("downloadButton").addEventListener("click", () => {
+      const text = codeEditor.value;
+      const blob = new Blob([text], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "code.html";
+      a.click();
+      URL.revokeObjectURL(url);
     });
   </script>
 </body>
